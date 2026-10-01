@@ -19,7 +19,7 @@ const initial: Filters = {
   vibes: [],
   distance: "any",
   region: "",
-  budgetMax: 10000,
+  budgetMax: 25000,
   states: [],
   radiusKm: 1000,
 };
@@ -42,9 +42,9 @@ function DestinationRoute({ destination }: { destination: Destination }) {
           className="routeAction"
           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${destination.name}, ${destination.state}, India`)}`}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
-          Open in Maps ↗
+          📍 Open location in Maps ↗
         </a>
       </section>
     </main>
@@ -61,7 +61,7 @@ export default function App() {
   }
 
   const [filters, setFilters] = useState(initial);
-  const [mumbaiOnly, setMumbaiOnly] = useState(true);
+  const [mumbaiOnly, setMumbaiOnly] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [origin, setOrigin] = useState<OriginProfile>(defaultOrigin);
   const [locating, setLocating] = useState(false);
@@ -203,8 +203,11 @@ export default function App() {
           🇮🇳 Whole India
         </button>
         <span>
-          {pool.length} matches · origin: {origin.city} · jugaad ceiling ≤ ₹
-          {filters.budgetMax.toLocaleString("en-IN")} ·{" "}
+          {pool.length} matches · origin: {origin.city} ·{" "}
+          {filters.budgetMax >= 25000
+            ? "budget: any"
+            : `jugaad ≤ ₹${filters.budgetMax.toLocaleString("en-IN")}`}{" "}
+          ·{" "}
           {filters.radiusKm >= 1000
             ? "all radii"
             : `${filters.radiusKm} km radius`}
